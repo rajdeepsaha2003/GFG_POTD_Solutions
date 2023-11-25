@@ -1,0 +1,110 @@
+/* The structure of the Node is
+struct Node
+{
+    int data;
+    Node *left;
+    Node *right;
+    int height;
+};
+*/
+
+
+  class Solution {
+public:
+  int height(Node *N);
+  Node *rightRotate(Node *y);
+  Node *leftRotate(Node *x);
+  int getBalance(Node *N);
+  bool __getBalance__(Node *root);
+  Node* insertToAVL(Node* node, int data);
+};
+
+int Solution::height(Node *N) {
+  if (N == NULL)
+    return 0;
+  return N->height;
+}
+
+Node *Solution::rightRotate(Node *y) {
+  Node *x = y->left;
+  Node *T2 = x->right;
+
+  x->right = y;
+  y->left = T2;
+
+  y->height = max(height(y->left), height(y->right))+1;
+  x->height = max(height(x->left), height(x->right))+1;
+
+  return x;
+}
+
+Node *Solution::leftRotate(Node *x) {
+  Node *y = x->right;
+  Node *T2 = y->left;
+
+  y->left = x;
+  x->right = T2;
+
+  x->height = max(height(x->left), height(x->right))+1;
+  y->height = max(height(y->left), height(y->right))+1;
+
+  return y;
+}
+
+int Solution::getBalance(Node *N) {
+  if (N == NULL)
+    return 0;
+  return height(N->left) - height(N->right);
+}
+
+bool Solution::__getBalance__(Node *root) {
+  int lh;
+  int rh;
+
+  if(root == NULL)
+    return 1;
+
+  lh = height(root->left);
+  rh = height(root->right);
+
+  if( abs(lh-rh) <= 1 &&
+      __getBalance__(root->left) &&
+      __getBalance__(root->right))
+    return 1;
+
+  return 0;
+}
+
+Node* Solution::insertToAVL(Node* node, int data) {
+  if (node == NULL)
+    return new Node(data);
+
+  if (data < node->data)
+    node->left = insertToAVL(node->left, data);
+  else if(data > node->data)
+    node->right = insertToAVL(node->right, data);
+  else
+    return node;
+
+  node->height = max(height(node->left), height(node->right)) + 1;
+
+  int balance = getBalance(node);
+
+  if (balance > 1 && data < node->left->data)
+    return rightRotate(node);
+
+  if (balance < -1 && data > node->right->data)
+    return leftRotate(node);
+
+  if (balance > 1 && data > node->left->data) {
+    node->left = leftRotate(node->left);
+    return rightRotate(node);
+  }
+
+  if (balance < -1 && data < node->right->data) {
+    node->right = rightRotate(node->right);
+    return leftRotate(node);
+  }
+
+  return node;
+}
