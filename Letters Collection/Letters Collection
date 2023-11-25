@@ -1,0 +1,53 @@
+// User function Template for C++
+
+class Solution{
+public:
+    // Function to check if given indices are valid within the matrix
+    bool isValid(int i, int j, int n, int m) {
+        if(i >= 0 && j >= 0 && i < n && j < m)
+            return true;
+        return false;
+    }
+    
+    // Function to calculate the sum of elements within the specified queries
+    vector<int> matrixSum(int n, int m, vector<vector<int>> mat, int q, vector<int> queries[])
+    {
+        int total = 0, topLeftRow, topLeftCol, bottomRightRow, bottomRightCol;
+        vector<int> result;
+        
+        // Loop over each query
+        for(int i = 0;i < q;i++) {
+            total = 0;
+            
+            // Calculate the indices for the top-left and the bottom-right corners of the submatrix
+            topLeftRow = queries[i][1] - queries[i][0];
+            topLeftCol = queries[i][2] - queries[i][0];
+            bottomRightRow = queries[i][1] + queries[i][0];
+            bottomRightCol = queries[i][2] + queries[i][0];
+            
+            // Iterate over the rows of the submatrix
+            for(int row = topLeftRow;row <= bottomRightRow;row++){
+                // Check if the current index is valid, and if so, add the corresponding element to the sum
+                if(isValid(row, topLeftCol, n, m)) 
+                    total += mat[row][topLeftCol];
+                if(isValid(row, bottomRightCol, n, m))
+                    total += mat[row][bottomRightCol];
+            }
+            
+            // Iterate over the columns of the submatrix
+            for(int col = topLeftCol+1;col < bottomRightCol;col++){
+                // Check if the current index is valid, and if so, add the corresponding element to the sum
+                if(isValid(topLeftRow, col, n, m))
+                    total += mat[topLeftRow][col];
+                if(isValid(bottomRightRow, col, n, m))
+                    total += mat[bottomRightRow][col];
+            }
+            
+            // Store the sum for the current query in the result vector
+            result.push_back(total);
+        }
+        
+        // Return the vector containing the sums for all queries
+        return result;
+    }
+};

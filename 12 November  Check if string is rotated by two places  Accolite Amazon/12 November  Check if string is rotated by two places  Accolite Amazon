@@ -1,0 +1,23 @@
+#User function Template for python3
+
+
+class Solution:
+    #Function to check if a string can be obtained by rotating
+    #another string by exactly 2 places.
+    def isRotated(self,str1,str2):
+        #code here
+        n=len(str2)
+        if(n<3):
+            return str1==str2
+            
+        
+        anticlock_str=str2[2:]+str2[0:2]
+        
+        
+        clockwise_str=str2[-2]+str2[-1]+str2[:n-2]
+        
+        
+        if(str1==anticlock_str or str1==clockwise_str):
+            return True
+        return False
+

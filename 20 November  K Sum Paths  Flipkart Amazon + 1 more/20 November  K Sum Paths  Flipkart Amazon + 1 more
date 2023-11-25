@@ -1,0 +1,53 @@
+#User function Template for python3
+
+'''
+class Node:
+    def __init__(self, val):
+        self.right = None
+        self.data = val
+        self.left = None
+'''
+
+class Solution:
+    ans=0   
+    mp=dict()
+    
+    def sumK_util(self, root, s, cur, mod):
+        global ans
+        global mp
+        
+        if(root==None):
+            return
+
+        ans=ans+mp[cur+root.data-s]
+        
+        if(ans>=mod):
+            ans%=mod
+        
+        if(cur+root.data==s):
+            ans=ans+1
+        
+        mp[cur+root.data]+=1
+        
+        self.sumK_util(root.left,s,cur+root.data,mod)
+        self.sumK_util(root.right,s,cur+root.data,mod)
+        
+        mp[cur+root.data]-=1
+        
+        if(mp[cur+root.data]<0):
+            mp[cur+root.data]+=mod
+    
+    def sumK(self, root, k):
+        global ans
+        global mp
+        
+        ans=0
+        mp=defaultdict(lambda:0)
+        
+        mod=pow(10,9)+7
+        
+
+        self.sumK_util(root,k,0,mod)
+        
+
+        return ans

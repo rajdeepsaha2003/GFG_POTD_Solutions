@@ -1,0 +1,29 @@
+#User function Template for python3
+
+'''
+class Node: 
+    def __init__(self, data): 
+        self.data = data  
+        self.next = None
+        self.prev = None
+'''
+
+class Solution:
+    def reverseDLL(self, head):
+        #return head after reversing
+        
+        temp = None
+        a = head 
+    
+        
+        while a is not None: 
+            
+            temp = a.prev  
+            a.prev = a.next
+            a.next = temp 
+            a = a.prev 
+    
+        
+        if temp is not None: 
+            head = temp.prev
+        return head

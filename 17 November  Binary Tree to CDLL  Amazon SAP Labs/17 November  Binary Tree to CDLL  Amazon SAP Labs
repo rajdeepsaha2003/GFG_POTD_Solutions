@@ -1,0 +1,34 @@
+#User function Template for python3
+
+
+'''
+class Node:
+    def __init__(self,val):
+        self.data = val
+        self.left = None
+        self.right = None
+
+'''
+
+class Solution:
+    
+    def concatenate(self, leftList, rightList):
+        if(leftList is None):
+            return rightList
+        if(rightList is None):
+            return leftList
+        leftLast=leftList.left
+        rightLast=rightList.left
+        leftLast.right=rightList
+        rightList.left=leftLast
+        leftList.left=rightLast
+        rightLast.right=leftList
+        return leftList
+    
+    def bTreeToClist(self, root):
+        if root is None:
+            return None
+        left=self.bTreeToClist(root.left)
+        right=self.bTreeToClist(root.right)
+        root.left=root.right=root
+        return self.concatenate(self.concatenate(left,root),right)

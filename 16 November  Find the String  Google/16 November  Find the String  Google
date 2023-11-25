@@ -1,0 +1,42 @@
+#User function Template for python3
+
+class Solution:
+    
+
+    def dfs(self, ans, d, tot, N, K):
+        global res
+        if len(d)==tot: 
+            res = ans
+            return True
+        tmp = ""
+        if N>1:
+            tmp = ans[len(ans)-N+1:] 
+        
+        for i in range(K): 
+            tmp += chr(48+i) 
+            if tmp not in d: 
+                ans += chr(48+i) 
+                d[tmp] = 1
+                
+                if self.dfs(ans,d,tot,N,K):
+                    return True
+                
+                d.pop(tmp)
+                ans = ans[0:len(ans)-1] 
+            tmp = tmp[0:len(tmp)-1] 
+        
+        return False
+    
+  
+    def findString(self, N, K):
+        if N==1: 
+            r = ""
+            for i in range(K):
+                r += chr(i+48)
+            return r
+        tot = pow(K,N)
+        ans = '0'*(N)
+        d = dict() 
+        d[ans] = 1 
+        self.dfs(ans,d,tot,N,K) 
+        return res 

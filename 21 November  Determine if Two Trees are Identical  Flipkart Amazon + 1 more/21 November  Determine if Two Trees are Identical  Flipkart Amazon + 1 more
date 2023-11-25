@@ -1,0 +1,46 @@
+* A binary tree node
+
+
+struct Node
+{
+    int data;
+    struct Node* left;
+    struct Node* right;
+    
+    Node(int x){
+        data = x;
+        left = right = NULL;
+    }
+};
+*/
+
+
+   
+class Solution
+{
+    public:
+    //Function to check if two trees are identical.
+    bool isIdentical(Node* a, Node* b)
+    {
+        //if both nodes are null then we return true.
+        if (a == NULL && b == NULL)
+            return true;
+    
+
+        if (a != NULL && b != NULL)
+        {
+            //we check if data at both nodes and left and right subtree of
+            //both the nodes are equal then we return true else return false.
+            return
+            (
+                a->data == b->data &&
+                isIdentical(a->left, b->left) &&
+                isIdentical(a->right, b->right)
+            );
+        }
+    
+        //returning false if one of the nodes is null and other isn't.
+        return false;
+    }
+
+};
